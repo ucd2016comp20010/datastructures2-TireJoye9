@@ -9,6 +9,27 @@ class BracketChecker {
 
     public void check() {
         // TODO
+        LinkedStack<Character> stack = new LinkedStack<>();
+
+        for (Character letter : input.toCharArray()) {
+            if (letter == '[' || letter == '{' || letter == '(') {
+                stack.push(letter);
+            }
+            else if (!stack.isEmpty() && letter == ']' && stack.top() == '[') {
+                stack.pop();
+            }
+            else if (!stack.isEmpty() && letter == '}' && stack.top() == '{') {
+                stack.pop();
+            }
+            else if (!stack.isEmpty() && letter == ')' && stack.top() == '(') {
+                stack.pop();
+            }
+        }
+        if (!stack.isEmpty())
+        {
+            System.out.println("Not correct");
+        }
+        System.out.println("Is correct");
     }
 
     public static void main(String[] args) {

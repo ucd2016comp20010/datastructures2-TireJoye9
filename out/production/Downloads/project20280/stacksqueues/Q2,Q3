@@ -1,0 +1,44 @@
+
+Q2
+Initialise both Queues
+
+enqueue function {
+       inStack, outStack = Stack, Stack
+
+       enqueue(x):
+           inStack.push(x)
+
+       dequeue():
+           if outStack.empty():
+               transfer all from inStack to outStack
+           return outStack.pop()
+
+
+}
+
+dequeue function {
+
+A, B = Stack, Stack
+
+    // Move all elements through the three stacks
+    // in a specific pattern to reverse order
+
+    n = size of S
+    for i from 0 to n-1:
+        // Move S elements to A, except last i
+        move (n-i-1) elements from S to A
+
+        // Move remaining from S to B
+        move remaining S elements to B
+
+        // Move bottom element to S (new top after reversal)
+        move one element from B to S
+
+        // Restore elements from A and B
+        move all from B to A
+        move all from A to S
+
+    return S
+
+
+}

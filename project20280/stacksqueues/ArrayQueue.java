@@ -4,16 +4,23 @@ import project20280.interfaces.Queue;
 
 public class ArrayQueue<E> implements Queue<E> {
 
+    //this is a constant, not a field
     private static final int CAPACITY = 1000;
+    //ArrayQueue holds array of any data.
     private E[] data;
-    private final int front = 0;
-    private final int size = 0;
+    private  int front = 0;
+    private  int size = 0;
 
+    //constructor with parameter capacity, do we make an array with that capacity
+    //When we create class,array is created, were able to make changes to that array
+    //Here they want to declare the size of the array.
     public ArrayQueue(int capacity) {
-        // TODO
-
+        data =  (E[]) new Object[capacity];
+        size = 0;
+        front = 0;
     }
 
+    //Calls other constructor
     public ArrayQueue() {
         this(CAPACITY);
     }
@@ -31,7 +38,13 @@ public class ArrayQueue<E> implements Queue<E> {
 
     @Override
     public void enqueue(E e) {
-        // TODO
+        int i = front;
+        while (data[i] != null)
+        {
+            i +=1;
+        }
+        data[i] = e;
+        size++;
     }
 
     @Override
@@ -41,8 +54,13 @@ public class ArrayQueue<E> implements Queue<E> {
 
     @Override
     public E dequeue() {
-        // TODO
-        return null;
+        // remove array[0] then shift array back?
+        if (isEmpty()) return null;
+        E old_data = data[front];
+        data[front] = null;
+        front += 1;
+        size--;
+        return old_data;
     }
 
     public String toString() {
