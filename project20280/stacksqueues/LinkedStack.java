@@ -13,7 +13,7 @@ public class LinkedStack<E> implements Stack<E> {
 
     public static void main(String[] args) {
         LinkedStack<Integer> stack = new LinkedStack<>();
-        convertToBinary(23);
+        System.out.println(convertToBinary(23));
     }
 
     //constructor for stack, what do we do here

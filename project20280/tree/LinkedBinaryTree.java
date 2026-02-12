@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 
+    //creates object called rnd from random class.
     static java.util.Random rnd = new java.util.Random();
     /**
      * The root of the binary tree

@@ -22,9 +22,16 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      * @return the Position of the sibling (or null if no sibling exists)
      * @throws IllegalArgumentException if p is not a valid Position for this tree
      */
+    //Checks if another node exists on the same level
+    //Or if p has same height
     @Override
     public Position<E> sibling(Position<E> p) {
-        // TODO
+        if (p == root())return null;
+        Position<E> familia = parent(p);
+        for (Position<E> c : children(familia))
+        {
+            if (p != c)return c;
+        }
         return null;
     }
 
@@ -37,8 +44,12 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      */
     @Override
     public int numChildren(Position<E> p) {
-        // TODO
-        return 0;
+        int childrenCounter = 0;
+        for (Position<E> c: children(p))
+        {
+            childrenCounter++;
+        }
+        return childrenCounter;
     }
 
     /**
@@ -66,7 +77,15 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      * @param snapshot a list to which results are appended
      */
     private void inorderSubtree(Position<E> p, List<Position<E>> snapshot) {
-        // TODO
+        if (left(p) != null)
+        {
+            inorderSubtree(left(p), snapshot);
+        }
+        snapshot.add(p);
+        if (right(p) != null)
+        {
+            inorderSubtree(right(p),snapshot);
+        }
     }
 
     /**
