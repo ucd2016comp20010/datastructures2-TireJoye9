@@ -2,6 +2,7 @@ package project20280.tree;
 
 import project20280.interfaces.Position;
 import project20280.interfaces.Tree;
+import project20280.tree.LinkedBinaryTree;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,6 +31,8 @@ public abstract class AbstractTree<E> implements Tree<E> {
         // TODO
         return false;
     }
+
+    private static int recursiveCalls = 0;
 
     /**
      * Returns true if Position p does not have any children.
@@ -111,15 +114,21 @@ public abstract class AbstractTree<E> implements Tree<E> {
      */
     private int heightBad() {             // works, but quadratic worst-case time
         int h = 0;
-        for (Position<E> p : positions())
+        for (Position<E> p : this.positions())
             if (isExternal(p))                // only consider leaf positions
                 h = Math.max(h, depth(p));
         return h;
     }
 
     public int height_recursive(Position<E> p) {
-        // TODO
-        return 0;
+        int h = 0;
+        recursiveCalls++;
+        // Loop through all children of p
+        for (Position<E> c : children(p)) {
+            h = Math.max(h, 1 + height_recursive(c));
+        }
+        System.out.println("Recursive function called"+ recursiveCalls + "times");
+        return h;
     }
 
     /**
