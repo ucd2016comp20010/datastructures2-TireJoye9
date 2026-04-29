@@ -183,6 +183,7 @@ public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
         size++;
     }
 
+
     @Override
     public E remove(int position) {
         if (head == null) return null;
@@ -254,6 +255,25 @@ public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
         size--;
         return temp.getvalue();
     }
+    public void reverse() {
+        if (head == null || head.next == null) {
+            return; // Empty list or single node - already reversed
+        }
+
+        Node prev = null;
+        Node current = head;
+        Node next = null;
+
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        head = prev; // Update head to the new first node
+    }
+
 
     @Override
     public E removeLast() {
@@ -280,6 +300,18 @@ public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
         prevPointer.next = null;
         size--;
         return removedValue;
+    }
+
+    private Node<E> copyNodes(Node<E> originalNode) {
+        if (originalNode == null) {
+            return null;
+        }
+
+        Node<E> newNode = new Node<>(originalNode.value, null);
+
+        newNode.next = copyNodes(originalNode.next);
+
+        return newNode;
     }
 
     @Override
@@ -381,25 +413,24 @@ public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
 
         ll2.addFirst(0);
         ll2.addFirst(1);
-
-
         ll.addFirst(2);
         ll.addFirst(3);
         ll.addFirst(4);
         ll.addLast(-1);
         ll.remove(2);
         System.out.println(ll.remove(2));
-        ll.removeLast();
         ll.removeFirst();
         System.out.println("I accept your apology");
-        ll.add(3, 5);
-        ll.add(3, 5);
-        ll.add(3, 5);
-        ll.add(3, 5);
-        ll.add(3, 5);
+        ll.add(2, 5);
+        ll.add(2, 5);
+        ll.add(2, 5);
+        ll.add(2, 5);
+        ll.add(2, 5);
         System.out.println("Nodes: ");
         System.out.println(ll);
         ll.remove(5);
+        ll.copyNodes(ll2.head);
+        ll.reverse();
         System.out.println(ll);
 
     }

@@ -1,0 +1,103 @@
+//Question 1
+
+i = 0 , j = len(A) - 1 - which is 10
+
+Call 1: i = 1 , j = 9
+Call 2: i = 2 , j = 8
+Call 3: i = 3 , j = 7
+Call 4: i = 4 , j = 6
+Call 5: i = 5 , j = 5
+Call 6: i = 6 , j = 4 recursive call ends here
+
+//Question 2
+
+call 1: fib(5) = fib(4) + fib(3)
+  call 2: fib(4) = fib(3) + fib(2)
+    call 3: fib(3) = fib(2) + fib(1)
+      call 4: fib(2) = fib(1) + fib(0)
+        call 5: fib(1) = 1
+        call 6: fib(0) = 0
+      call 4 returns: 1 + 0 = 1
+      call 7: fib(1) = 1
+    call 3 returns: 1 + 1 = 2
+    call 8: fib(2) = fib(1) + fib(0)
+      call 9: fib(1) = 1
+      call 10: fib(0) = 0
+    call 8 returns: 1 + 0 = 1
+  call 2 returns: 2 + 1 = 3
+  call 11: fib(3) = fib(2) + fib(1)
+    call 12: fib(2) = fib(1) + fib(0)
+      call 13: fib(1) = 1
+      call 14: fib(0) = 0
+    call 12 returns: 1 + 0 = 1
+    call 15: fib(1) = 1
+  call 11 returns: 1 + 1 = 2
+call 1 returns: 3 + 2 = 5
+
+//Question 3
+9th term is 44
+
+Question 4
+Multiple recursion + nested recusion
+
+//Question 5 (a)
+Base case is until we reach 0
+If it is not call foo but with the number divided by 2.
+Then the remainder is printed after the recusive call.
+
+Question b
+foo(2486) is
+1   (from base case)
+0
+0
+1
+1
+0
+1
+1
+0
+1
+1
+0
+
+Question 6
+
+function printReverse(node)
+    if node == null then
+        return
+    end if
+
+    Recursively call with next node first
+    printReverse(node.next)
+
+    Print current node's data after recursive call
+    print node.data
+end function
+
+To print the entire list in reverse, call:
+printReverse(head)
+
+Question 7
+
+function copyList(originalNode)
+    if originalNode == null then
+        return null
+    end if
+
+    newNode = create new node with originalNode.data
+
+    newNode.next = copyList(originalNode.next)
+
+    return newNode
+end function
+
+newHead = copyList(originalHead)
+
+Question 8
+Call 1: n = 2 , a = 4 , d = 4
+Call 2: n = 1 , a = 4 , d = 4  recursive call ends here
+
+Return to Call 2: return 4
+Return to Call 1: return 4 + 4 = 8
+
+

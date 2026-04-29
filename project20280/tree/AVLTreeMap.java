@@ -5,87 +5,92 @@ import project20280.interfaces.Position;
 
 import java.util.Comparator;
 
-/**
- * An implementation of a sorted map using an AVL tree.
- */
-
 public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 
-    /**
-     * Constructs an empty map using the natural ordering of keys.
-     */
     public AVLTreeMap() {
         super();
     }
 
-    /**
-     * Constructs an empty map using the given comparator to order keys.
-     *
-     * @param comp comparator defining the order of keys in the map
-     */
     public AVLTreeMap(Comparator<K> comp) {
         super(comp);
     }
 
-    /**
-     * Returns the height of the given tree position.
-     */
+    // returns how tall the node is (leaves are height 0)
     protected int height(Position<Entry<K, V>> p) {
-        // TODO
-        return 0;
+        if (p == null || isExternal(p)) {
+            return 0;
+        }
+        return tree.getAux(p);
     }
 
-    /**
-     * Recomputes the height of the given position based on its children's heights.
-     */
+    // recalculates height based on children
     protected void recomputeHeight(Position<Entry<K, V>> p) {
-        // TODO
+        if (p != null && isInternal(p)) {
+            int h = 1 + Math.max(height(left(p)), height(right(p)));
+            tree.setAux(p, h);
+        }
     }
 
-    /**
-     * Returns whether a position has balance factor between -1 and 1 inclusive.
-     */
+    // checks if the node is balanced - heights differ by at most 1
     protected boolean isBalanced(Position<Entry<K, V>> p) {
-        // TODO
-        return false;
+        if (p == null || isExternal(p)) {
+            return true;
+        }
+        int diff = height(left(p)) - height(right(p));
+        return Math.abs(diff) <= 1;
     }
 
-    /**
-     * Returns a child of p with height no smaller than that of the other child.
-     */
+    // returns the taller child (used to figure out which way to rotate)
     protected Position<Entry<K, V>> tallerChild(Position<Entry<K, V>> p) {
-        // TODO
-        return null;
+        int leftH = height(left(p));
+        int rightH = height(right(p));
+
+        if (leftH > rightH) {
+            return left(p);
+        } else if (rightH > leftH) {
+            return right(p);
+        } else {
+            // if they're equal, go with the left child
+            // (doesn't really matter which one)
+            return left(p);
+        }
     }
 
-    /**
-     * Utility used to rebalance after an insert or removal operation. This
-     * traverses the path upward from p, performing a trinode restructuring when
-     * imbalance is found, continuing until balance is restored.
-     */
+    // walks up from p and fixes any unbalanced nodes it finds
     protected void rebalance(Position<Entry<K, V>> p) {
-        // TODO
+        Position<Entry<K, V>> current = p;
+
+        while (current != null) {
+            // update height before checking balance
+            recomputeHeight(current);
+
+            if (!isBalanced(current)) {
+                // need to fix this node
+                current = restructure(tallerChild(tallerChild(current)));
+                recomputeHeight(left(current));
+                recomputeHeight(right(current));
+                recomputeHeight(current);
+            }
+
+            // move up to parent
+            current = parent(current);
+        }
     }
 
-    /**
-     * Overrides the TreeMap rebalancing hook that is called after an insertion.
-     */
+    // called after inserting something - rebalance along the path up
     @Override
     protected void rebalanceInsert(Position<Entry<K, V>> p) {
         rebalance(p);
     }
 
-    /**
-     * Overrides the TreeMap rebalancing hook that is called after a deletion.
-     */
+    // called after deleting something - rebalance along the path up
     @Override
     protected void rebalanceDelete(Position<Entry<K, V>> p) {
-        // TODO
+        // start rebalancing from the parent since the node itself is gone
+        rebalance(parent(p));
     }
 
-    /**
-     * Ensure that current tree structure is valid AVL (for debug use only).
-     */
+    // just for debugging - checks if the tree is a valid AVL tree
     private boolean sanityCheck() {
         for (Position<Entry<K, V>> p : tree.positions()) {
             if (isInternal(p)) {
@@ -101,11 +106,13 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
         return true;
     }
 
+    // makes a nice string representation of the tree
     public String toBinaryTreeString() {
         BinaryTreePrinter<Entry<K, V>> btp = new BinaryTreePrinter<>(this.tree);
         return btp.print();
     }
 
+    // test it out
     public static void main(String[] args) {
         AVLTreeMap avl = new AVLTreeMap<>();
 
@@ -119,6 +126,5 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 
         avl.remove(5);
         System.out.println(avl.toBinaryTreeString());
-
     }
 }

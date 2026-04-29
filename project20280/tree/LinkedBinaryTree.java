@@ -122,6 +122,8 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
         return total
          */
 
+        //
+        bt.printLeavesLeftToRight(bt.root);
 
 
     }
@@ -481,6 +483,21 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
     public String toBinaryTreeString() {
         BinaryTreePrinter<E> btp = new BinaryTreePrinter<>(this);
         return btp.print();
+    }
+
+    private void printLeavesLeftToRight(Node node) {
+        if (node == null) return;
+
+        // Visit left subtree first
+        printLeavesLeftToRight(node.left);
+
+        // Check if it's leaf
+        if (node.left == null && node.right == null) {
+            System.out.print(node.element + " ");
+        }
+
+        // Visit right subtree
+        printLeavesLeftToRight(node.right);
     }
 
     /**
